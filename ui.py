@@ -60,9 +60,12 @@ def print_menu(title, list_options, exit_message):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-
-    # your code
-
+    print()
+    print(f"{title}:")
+    for index, element in enumerate(list_options):
+        print(f"\t({index+1}) {element}")
+    print(f"\t(0) {exit_message}")
+    
 
 def get_inputs(list_labels, title):
     """
@@ -83,10 +86,14 @@ def get_inputs(list_labels, title):
         list: List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
+    print()
+    print(title)
     inputs = []
-
-    # your code
-
+    for label in list_labels:
+        print(label)
+        user_input = input()
+        inputs.append(user_input)
+    print(inputs)
     return inputs
 
 
