@@ -21,30 +21,37 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
-    print(f"/{'-'*100}\\")
-    print(f"| {' | '.join(title_list)} |")
 
+    the_longest_in_col = [['-']*len(table[0].split(";"))]
     for row in table:
-        print(f"|{'-'*100}|")
         row = row.split(";")
-        # lista = []
-        # max_element = 0
-        # for element in row:
-        #     if len(element) > max_element:
-        #         max_element = len(element)
-        #     lista.append((element, max_element))
-        
-        # for element in lista:
-        #     print(element)
-        #     lista.append(f"{element[0].center(element[1])}")
+        # Loop to create a list of the longest elements
+        for i in range(len(row)):
+            if len(row[i]) > len(the_longest_in_col[0][i]):
+                the_longest_in_col[0][i] = row[i]
 
+    # Loop to eventually modify the list of longest elements, if title_list has longer elements
+    for i in range(len(title_list)):
+        if len(title_list[i]) > len(the_longest_in_col[0][i]):
+            the_longest_in_col[0][i] = title_list[i]
+        title_list[i] = title_list[i].center(len(the_longest_in_col[0][i]))
+
+    # Loop to create width of the table
+    table_width = 3*len(the_longest_in_col[0])-1
+    for element in the_longest_in_col[0]:
+        table_width += len(element)
+
+    # Print awesome table
+    print(f"/{'-'*(table_width)}\\")
+    print(f"| {' | '.join(title_list)} |")
+    for row in table:
+        print(f"|{'-'*(table_width)}|")
+        # Loop to center elements in row
+        row = row.split(";")
+        for i in range(len(row)):
+            row[i] = row[i].center(len(the_longest_in_col[0][i]))
         print(f"| {' | '.join(row)} |")
-        # row = " | ".join(f"{row.center(30)}")
-            # element = element.center(30)
-        # row = " | ".join(row.split(";"))
-
-    print(f"\\{'-'*100}/")
-
+    print(f"\\{'-'*(table_width)}/")
 
 
 def print_result(result, label):
@@ -108,14 +115,13 @@ def get_inputs(list_labels, title):
         list: List of data given by the user. Sample return:
             [<user_input_1>, <user_input_2>, <user_input_3>]
     """
-    print()
     print(title)
     inputs = []
     for label in list_labels:
         print(label)
         user_input = input()
         inputs.append(user_input)
-    print(inputs)
+    # print(inputs)
     return inputs
 
 
