@@ -15,6 +15,26 @@ import data_manager
 # common module
 import common
 
+def handle_menu():
+    options = ["Show all"]
+    menu_title = "Human resources manager"
+    exit_message = "Back to main menu"
+    ui.print_menu(menu_title, options, exit_message)
+
+
+def choose():
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    if option == "0":
+        return False
+    elif option == "1":
+        list_of_people = []
+        with open("hr/persons.csv") as file:
+            for line in file:
+                list_of_people.append(line.strip('\n'))
+        show_table(list_of_people)
+
+
 
 def start_module():
     """
@@ -26,7 +46,13 @@ def start_module():
         None
     """
 
-    # your code
+    is_running = True
+    while is_running:
+        handle_menu()
+        try:
+            is_running = choose()
+        except KeyError as err:
+            ui.print_error_message(str(err))
 
 
 def show_table(table):
@@ -40,7 +66,7 @@ def show_table(table):
         None
     """
 
-    # your code
+    ui.print_table(table, ["id", "name", "birth_year"])  #, "price", "in stock"])
 
 
 def add(table):
