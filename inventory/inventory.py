@@ -28,7 +28,32 @@ def start_module():
         None
     """
 
-    # your code
+    is_running = True
+    while is_running:
+        handle_menu()
+        try:
+            is_running = choose()
+        except KeyError as err:
+            ui.print_error_message(str(err))
+
+def handle_menu():
+    options = ["Show all"]
+    menu_title = "Inventory manager"
+    exit_message = "Back to main menu"
+    ui.print_menu(menu_title, options, exit_message)
+
+
+def choose():
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    if option == "0":
+        return False
+    elif option == "1":
+        list_of_inventory = []
+        with open("inventory/inventory.csv") as file:
+            for line in file:
+                list_of_inventory.append(line.strip('\n'))
+        show_table(list_of_inventory)
 
 
 def show_table(table):
@@ -42,7 +67,7 @@ def show_table(table):
         None
     """
 
-    # your code
+    ui.print_table(table, ["id", "name", "manufacturer", "purchase_year", "durability"])
 
 
 def add(table):

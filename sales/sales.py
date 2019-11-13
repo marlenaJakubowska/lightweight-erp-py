@@ -29,8 +29,32 @@ def start_module():
         None
     """
 
-    # your code
+    is_running = True
+    while is_running:
+        handle_menu()
+        try:
+            is_running = choose()
+        except KeyError as err:
+            ui.print_error_message(str(err))
 
+def handle_menu():
+    options = ["Show all"]
+    menu_title = "Sales manager"
+    exit_message = "Back to main menu"
+    ui.print_menu(menu_title, options, exit_message)
+
+
+def choose():
+    inputs = ui.get_inputs(["Please enter a number: "], "")
+    option = inputs[0]
+    if option == "0":
+        return False
+    elif option == "1":
+        list_of_sales = []
+        with open("sales/sales.csv") as file:
+            for line in file:
+                list_of_sales.append(line.strip('\n'))
+        show_table(list_of_sales)
 
 def show_table(table):
     """
@@ -43,8 +67,7 @@ def show_table(table):
         None
     """
 
-    # your code
-
+    ui.print_table(table, ["id", "title", "price", "month", "day", "year"])
 
 def add(table):
     """
