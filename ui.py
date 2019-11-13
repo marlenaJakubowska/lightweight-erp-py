@@ -21,8 +21,30 @@ def print_table(table, title_list):
     Returns:
         None: This function doesn't return anything it only prints to console.
     """
+    print(f"/{'-'*100}\\")
+    print(f"| {' | '.join(title_list)} |")
 
-    # your goes code
+    for row in table:
+        print(f"|{'-'*100}|")
+        row = row.split(";")
+        # lista = []
+        # max_element = 0
+        # for element in row:
+        #     if len(element) > max_element:
+        #         max_element = len(element)
+        #     lista.append((element, max_element))
+        
+        # for element in lista:
+        #     print(element)
+        #     lista.append(f"{element[0].center(element[1])}")
+
+        print(f"| {' | '.join(row)} |")
+        # row = " | ".join(f"{row.center(30)}")
+            # element = element.center(30)
+        # row = " | ".join(row.split(";"))
+
+    print(f"\\{'-'*100}/")
+
 
 
 def print_result(result, label):

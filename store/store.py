@@ -30,6 +30,12 @@ def choose():
     option = inputs[0]
     if option == "0":
         return False
+    elif option == "1":
+        list_of_games = []
+        with open("store/games.csv") as file:
+            for line in file:
+                list_of_games.append(line.strip('\n'))
+        show_table(list_of_games)
 
 
 def start_module():
@@ -48,8 +54,6 @@ def start_module():
             is_running = choose()
         except KeyError as err:
             ui.print_error_message(str(err))
-    print('hello')
-    # your code
 
 
 def show_table(table):
@@ -62,8 +66,10 @@ def show_table(table):
     Returns:
         None
     """
+    ui.print_table(table, ["id", "title", "manufacturer", "price", "in stock"])
 
-    # your code
+
+
 
 
 def add(table):
