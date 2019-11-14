@@ -39,30 +39,30 @@ def start_module():
 
 
 def handle_menu():
-    options = ["Show all", "Add", "Remove"]
+    options = ["Show all", "Add", "Remove", "Update"]
     menu_title = "Sales manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
 
 
 def choose():
+    table = data_manager.get_table_from_file("sales/sales.csv")
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
     if option == "0":
         return False
     elif option == "1":
-        list_of_sales = []
-        with open("sales/sales.csv") as file:
-            for line in file:
-                list_of_sales.append(line.strip('\n'))
-        show_table(list_of_sales)
-        print(list_of_sales)
+        show_table(table)
     elif option == "2":
-        table = data_manager.get_table_from_file("sales/sales.csv")
         add(table)
     elif option == "3":
         id_ = ui.get_inputs(["Please enter an ID: "], "")
-        remove(data_manager.get_table_from_file("sales/sales.csv"), id_)
+        remove(table, id_)
+    elif option == "4":
+        id_ = ui.get_inputs(["Please enter an ID of a record to update: "], "")
+        update(table, id_)
+        
+    start_module()
 
 
 def show_table(table):
@@ -93,8 +93,7 @@ def add(table):
     unique_id = common.generate_random(table)
     inputs = ui.get_inputs(["Enter game title", "Enter price: ", "Enter month of sale: ", "Enter day of sale: ", "Enter year of sale: "], "")
     with open("sales/sales.csv", "a") as file:
-        file.write("\n")
-        file.write(f"{unique_id};{';'.join(inputs)}")
+        file.write(f"{unique_id};{';'.join(inputs)}\n")
 
     return table
 
@@ -113,7 +112,7 @@ def remove(table, id_):
 
     for row in table:
         if id_[0] == row[0]:
-            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
+            inputs = ui.get_inputs([f"Do you want to delete this record ({' | '.join(row)})? [y/n] "], "")
             if inputs[0].lower() == "y":
                 table.remove(row)
             else:
@@ -135,9 +134,20 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
+    table_index = 0
+    for row in table:
+        if id_[0] == row[0]:
+            for i in range(len(row)):
+                user_input = ''.join(ui.get_inputs([f"({row[i]}) Write new record or press 'Enter' to continue "], ""))
+                if user_input == "":
+                    continue
+                else:
+                    row[i] = user_input
+            table[table_index] = row
+        table_index += 1
 
-    # your code
-
+    data_manager.write_table_to_file("sales/sales.csv", table)
+    show_table(table)
     return table
 
 
