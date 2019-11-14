@@ -39,7 +39,7 @@ def start_module():
 
 
 def handle_menu():
-    options = ["Show all", "Add"]
+    options = ["Show all", "Add", "Remove"]
     menu_title = "Sales manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -56,8 +56,13 @@ def choose():
             for line in file:
                 list_of_sales.append(line.strip('\n'))
         show_table(list_of_sales)
+        print(list_of_sales)
     elif option == "2":
-        add(inputs)
+        table = data_manager.get_table_from_file("sales/sales.csv")
+        add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Please enter an ID: "], "")
+        remove(data_manager.get_table_from_file("sales/sales.csv"), id_)
 
 
 def show_table(table):
@@ -106,8 +111,16 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
+    for row in table:
+        if id_[0] == row[0]:
+            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
+            if inputs[0].lower() == "y":
+                table.remove(row)
+            else:
+                continue
 
+    data_manager.write_table_to_file("sales/sales.csv", table)
+    
     return table
 
 

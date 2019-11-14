@@ -39,7 +39,7 @@ def start_module():
 
 
 def handle_menu():
-    options = ["Show all", "Add"]
+    options = ["Show all", "Add", "Remove"]
     menu_title = "Accounting manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -57,7 +57,11 @@ def choose():
                 list_of_items.append(line.strip('\n'))
         show_table(list_of_items)
     elif option == "2":
-        add(inputs)
+        table = data_manager.get_table_from_file("accounting/items.csv")
+        add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Please enter an ID: "], "")
+        remove(data_manager.get_table_from_file("accounting/items.csv"), id_)
     start_module()
 
 
@@ -86,7 +90,7 @@ def add(table):
         list: Table with a new record
     """
     unique_id = common.generate_random(table)
-    inputs = ui.get_inputs(["Month of the transaction: ", "Day of the transaction: ", "Year of the transaction:  ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
+    inputs = ui.get_inputs(["Enter month of transaction: ", "Enter day of transaction: ", "Year of transaction: ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
     with open("accounting/items.csv", "a") as file:
         file.write("\n")
         file.write(f"{unique_id};{';'.join(inputs)}")
@@ -106,8 +110,16 @@ def remove(table, id_):
         list: Table without specified record.
     """
 
-    # your code
+    for row in table:
+        if id_[0] == row[0]:
+            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
+            if inputs[0].lower() == "y":
+                table.remove(row)
+            else:
+                continue
 
+    data_manager.write_table_to_file("accounting/items.csv", table)
+    
     return table
 
 

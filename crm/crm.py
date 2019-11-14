@@ -53,8 +53,8 @@ def choose():
         with open("crm/customers.csv") as file:
             for line in file:
                 list_of_customers.append(line.strip('\n'))
+        print(list_of_customers)
         show_table(list_of_customers)
-        # start_module()
     elif option == "2":
         table = data_manager.get_table_from_file("crm/customers.csv")
         add(table)
@@ -74,7 +74,7 @@ def show_table(table):
         None
     """
 
-    ui.print_table(table, ["id", "name", "email", "subscribed"])
+    ui.print_table(table, ["ID", "name", "email", "subscribed"])
 
 
 def add(table):
@@ -108,29 +108,17 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-    print(id_)
-    for row in table:
-        #print(id_[0], row[0])
-        if id_[0] == row[0]:
-            #print('dos,,')
-            #with open("crm/customers.csv", "r+") as file:
-            #for i in range(len(row)):
-            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
-            print(inputs)
-            print(inputs[0])
 
-            if inputs[0] == "y":
+    for row in table:
+        if id_[0] == row[0]:
+            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
+            if inputs[0].lower() == "y":
                 table.remove(row)
-            else: #inputs == "n":
+            else:
                 continue
 
     data_manager.write_table_to_file("crm/customers.csv", table)
-            
-            # table[row] = ';'.join(row)
-            # for element in table:
-            #     file.write(f"{element}\n")
-                    
-    #show_table(table)
+    
     return table
 
 
