@@ -36,8 +36,9 @@ def start_module():
         except KeyError as err:
             ui.print_error_message(str(err))
 
+
 def handle_menu():
-    options = ["Show all"]
+    options = ["Show all", "Add"]
     menu_title = "Inventory manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -54,6 +55,8 @@ def choose():
             for line in file:
                 list_of_inventory.append(line.strip('\n'))
         show_table(list_of_inventory)
+    elif option == "2":
+        add(inputs)
 
 
 def show_table(table):
@@ -81,7 +84,10 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
+    inputs = ui.get_inputs(["Please enter ID: ", "Enter item name", "Enter manufacturer: ", "Enter purchase year: ", "Enter durability (years): "], "")
+    with open("inventory/inventory.csv", "a") as file:
+        file.write("\n")
+        file.write(";".join(inputs))
 
     return table
 

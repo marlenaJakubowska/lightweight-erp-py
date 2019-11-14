@@ -37,8 +37,9 @@ def start_module():
         except KeyError as err:
             ui.print_error_message(str(err))
 
+
 def handle_menu():
-    options = ["Show all"]
+    options = ["Show all", "Add"]
     menu_title = "Accounting manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -55,6 +56,9 @@ def choose():
             for line in file:
                 list_of_items.append(line.strip('\n'))
         show_table(list_of_items)
+    elif option == "2":
+        add(inputs)
+    start_module()
 
 
 def show_table(table):
@@ -82,7 +86,10 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
+    inputs = ui.get_inputs(["Please enter ID: ", "Month of the transaction: ", "Day of the transaction: ", "Year of the transaction:  ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
+    with open("accounting/items.csv", "a") as file:
+        file.write("\n")
+        file.write(";".join(inputs))
 
     return table
 

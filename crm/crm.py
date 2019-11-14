@@ -35,8 +35,9 @@ def start_module():
         except KeyError as err:
             ui.print_error_message(str(err))
 
+
 def handle_menu():
-    options = ["Show all"]
+    options = ["Show all", "Add"]
     menu_title = "Human resources manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -53,6 +54,10 @@ def choose():
             for line in file:
                 list_of_customers.append(line.strip('\n'))
         show_table(list_of_customers)
+        # start_module()
+    elif option == "2":
+        add(inputs)
+        
 
 
 def show_table(table):
@@ -80,7 +85,10 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
+    inputs = ui.get_inputs(["Please enter ID: ", "Enter name: ", "Enter email: ", "Subscription (1/0 = yes/no): "], "")
+    with open("crm/customers.csv", "a") as file:
+        file.write("\n")
+        file.write(";".join(inputs))
 
     return table
 

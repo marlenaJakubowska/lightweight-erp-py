@@ -4,6 +4,11 @@ implement commonly used functions here
 
 import random
 
+def generate_id():
+    letters = "qwertyuiopasdfghjklzxcvbnm"
+    numbers = "1234567890"
+    spec_char = "!@#$%^&<>?-+[]{},./"
+    
 
 def generate_random(table):
     """
@@ -20,6 +25,5 @@ def generate_random(table):
 
     generated = ''
 
-    # your code
 
     return generated

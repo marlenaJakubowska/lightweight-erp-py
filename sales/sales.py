@@ -37,8 +37,9 @@ def start_module():
         except KeyError as err:
             ui.print_error_message(str(err))
 
+
 def handle_menu():
-    options = ["Show all"]
+    options = ["Show all", "Add"]
     menu_title = "Sales manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -55,6 +56,9 @@ def choose():
             for line in file:
                 list_of_sales.append(line.strip('\n'))
         show_table(list_of_sales)
+    elif option == "2":
+        add(inputs)
+
 
 def show_table(table):
     """
@@ -69,6 +73,7 @@ def show_table(table):
 
     ui.print_table(table, ["id", "title", "price", "month", "day", "year"])
 
+
 def add(table):
     """
     Asks user for input and adds it into the table.
@@ -80,7 +85,10 @@ def add(table):
         list: Table with a new record
     """
 
-    # your code
+    inputs = ui.get_inputs(["Please enter ID: ", "Enter game title", "Enter price: ", "Enter month of sale: ", "Enter day of sale: ", "Enter year of sale: "], "")
+    with open("sales/sales.csv", "a") as file:
+        file.write("\n")
+        file.write(";".join(inputs))
 
     return table
 
