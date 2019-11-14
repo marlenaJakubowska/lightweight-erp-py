@@ -89,11 +89,11 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    unique_id = common.generate_random(table)
-    inputs = ui.get_inputs(["Enter month of transaction: ", "Enter day of transaction: ", "Year of transaction: ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
-    with open("accounting/items.csv", "a") as file:
-        file.write(f"{unique_id};{';'.join(inputs)}\n")
-
+    # unique_id = common.generate_random(table)
+    # inputs = ui.get_inputs(["Enter month of transaction: ", "Enter day of transaction: ", "Year of transaction: ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
+    # with open("accounting/items.csv", "a") as file:
+    #     file.write(f"{unique_id};{';'.join(inputs)}\n")
+    common.add("accounting/items.csv", table, ["Enter month of transaction: ", "Enter day of transaction: ", "Year of transaction: ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "])
     return table
 
 
@@ -108,17 +108,16 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
+    common.remove("accounting/items.csv", table, id_)
+    # for row in table:
+    #     if id_[0] == row[0]:
+    #         inputs = ui.get_inputs([f"Do you want to delete this record ({' | '.join(row)})? [y/n] "], "")
+    #         if inputs[0].lower() == "y":
+    #             table.remove(row)
+    #         else:
+    #             continue
 
-    for row in table:
-        if id_[0] == row[0]:
-            inputs = ui.get_inputs([f"Do you want to delete this record ({' | '.join(row)})? [y/n] "], "")
-            if inputs[0].lower() == "y":
-                table.remove(row)
-            else:
-                continue
-
-    data_manager.write_table_to_file("accounting/items.csv", table)
-    
+    # data_manager.write_table_to_file("accounting/items.csv", table)
     return table
 
 
@@ -133,19 +132,20 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    table_index = 0
-    for row in table:
-        if id_[0] == row[0]:
-            for i in range(len(row)):
-                user_input = ''.join(ui.get_inputs([f"({row[i]}) Write new record or press 'Enter' to continue "], ""))
-                if user_input == "":
-                    continue
-                else:
-                    row[i] = user_input
-            table[table_index] = row
-        table_index += 1
+    # table_index = 0
+    # for row in table:
+    #     if id_[0] == row[0]:
+    #         for i in range(len(row)):
+    #             user_input = ''.join(ui.get_inputs([f"({row[i]}) Write new record or press 'Enter' to continue "], ""))
+    #             if user_input == "":
+    #                 continue
+    #             else:
+    #                 row[i] = user_input
+    #         table[table_index] = row
+    #     table_index += 1
 
-    data_manager.write_table_to_file("accounting/items.csv", table)  
+    # data_manager.write_table_to_file("accounting/items.csv", table)  
+    common.update("accounting/items.csv", table, id_)
     show_table(table)
     return table
 
