@@ -19,7 +19,7 @@ import common
 
 
 def handle_menu():
-    options = ["Show all"]
+    options = ["Show all", "Add", "Remove", "Update"]
     menu_title = "Store module"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -36,6 +36,25 @@ def choose():
             for line in file:
                 list_of_games.append(line.strip('\n'))
         show_table(list_of_games)
+    elif option == "2":
+        list_of_games = []
+        with open("store/games.csv") as file:
+            for line in file:
+                list_of_games.append(line.strip('\n'))
+        add(list_of_games)
+    elif option == "3":
+        list_of_games = []
+        with open("store/games.csv") as file:
+            for line in file:
+                list_of_games.append(line.strip('\n'))
+        remove(list_of_games, input("Please enter an id of a record to be removed: "))
+    elif option == "4":
+        list_of_games = []
+        with open("store/games.csv") as file:
+            for line in file:
+                list_of_games.append(line.strip('\n'))
+        update(list_of_games, input("Please enter an id of a record to update: "))
+    start_module()
 
 
 def start_module():
@@ -69,9 +88,6 @@ def show_table(table):
     ui.print_table(table, ["id", "title", "manufacturer", "price", "in stock"])
 
 
-
-
-
 def add(table):
     """
     Asks user for input and adds it into the table.
@@ -82,7 +98,6 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
     # your code
 
     return table
@@ -116,9 +131,23 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-
-    # your code
-
+    table_index = 0
+    for row in table:
+        row = row.split(";")
+        if id_ == row[0]:
+            with open("store/games.csv", "r+") as file:
+                for i in range(len(row)):
+                    user_input = input(f"Do you want to change this record ({row[i]})? [y/n] ")
+                    if user_input == "y":
+                        row[i] = input("New record: ")
+                    elif user_input == "n":
+                        continue
+                table[table_index] = ';'.join(row)
+                for element in table:
+                    file.write(f"{element}\n")
+        table_index += 1
+                    
+    show_table(table)
     return table
 
 
