@@ -32,6 +32,9 @@ def print_table(table, title_list):
 
     # Loop to eventually modify the list of longest elements, if title_list has longer elements
     for i in range(len(title_list)):
+        print(i)
+        print(len(title_list))
+        print(title_list)
         if len(title_list[i]) > len(the_longest_in_col[0][i]):
             the_longest_in_col[0][i] = title_list[i]
         title_list[i] = title_list[i].center(len(the_longest_in_col[0][i]))
@@ -136,4 +139,4 @@ def print_error_message(message):
         None: This function doesn't return anything it only prints to console.
     """
 
-    # your code
+    print(f"Error: {message}")

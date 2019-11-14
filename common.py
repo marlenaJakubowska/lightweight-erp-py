@@ -39,6 +39,5 @@ def generate_random(table):
     generated_id = create_id()
     if id in id_table:
         generate_random(table)
-    else:
-        return generated_id
+    
     return generated_id

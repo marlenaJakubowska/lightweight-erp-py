@@ -37,7 +37,7 @@ def start_module():
 
 
 def handle_menu():
-    options = ["Show all", "Add"]
+    options = ["Show all", "Add", "Delete"]
     menu_title = "Human resources manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
@@ -56,7 +56,11 @@ def choose():
         show_table(list_of_customers)
         # start_module()
     elif option == "2":
-        add(inputs)
+        table = data_manager.get_table_from_file("crm/customers.csv")
+        add(table)
+    elif option == "3":
+        id_ = ui.get_inputs(["Please enter an ID: "], "")
+        remove(data_manager.get_table_from_file("crm/customers.csv"), id_)
 
 
 def show_table(table):
@@ -104,9 +108,29 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
+    print(id_)
+    for row in table:
+        #print(id_[0], row[0])
+        if id_[0] == row[0]:
+            #print('dos,,')
+            #with open("crm/customers.csv", "r+") as file:
+            #for i in range(len(row)):
+            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
+            print(inputs)
+            print(inputs[0])
 
-    # your code
+            if inputs[0] == "y":
+                table.remove(row)
+            else: #inputs == "n":
+                continue
 
+    data_manager.write_table_to_file("crm/customers.csv", table)
+            
+            # table[row] = ';'.join(row)
+            # for element in table:
+            #     file.write(f"{element}\n")
+                    
+    #show_table(table)
     return table
 
 
@@ -142,7 +166,9 @@ def get_longest_name_id(table):
                 the last by alphabetical order of the names)
         """
 
-    # your code
+    # longest_name = ""
+    # name_index = 1
+    # id_table = [line[longest_name] for line in table]
 
 
 # the question: Which customers has subscribed to the newsletter?
