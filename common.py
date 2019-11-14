@@ -4,11 +4,22 @@ implement commonly used functions here
 
 import random
 
-def generate_id():
+
+def create_id():
     letters = "qwertyuiopasdfghjklzxcvbnm"
     numbers = "1234567890"
-    spec_char = "!@#$%^&<>?-+[]{},./"
-    
+    spec_char = "!@#$%^&?"
+
+    id_el1 = "".join(random.sample(letters, 1)).lower()
+    id_el2 = "".join(random.sample(letters, 1)).upper()
+    id_el3 = "".join(random.sample(numbers, 2))
+    id_el4 = "".join(random.sample(letters, 1)).upper()
+    id_el5 = "".join(random.sample(letters, 1)).lower()
+    id_el6 = "".join(random.sample(spec_char, 2))
+
+    id = id_el1 + id_el2 + id_el3 + id_el4 + id_el5 + id_el6
+    return id
+
 
 def generate_random(table):
     """
@@ -22,8 +33,12 @@ def generate_random(table):
     Returns:
         string: Random and unique string
     """
-
-    generated = ''
-
-
-    return generated
+    id_index = 0
+    generated_id = ''
+    id_table = [line[id_index] for line in table]
+    generated_id = create_id()
+    if id in id_table:
+        generate_random(table)
+    else:
+        return generated_id
+    return generated_id

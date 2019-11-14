@@ -85,10 +85,11 @@ def add(table):
         list: Table with a new record
     """
 
-    inputs = ui.get_inputs(["Please enter ID: ", "Enter game title", "Enter price: ", "Enter month of sale: ", "Enter day of sale: ", "Enter year of sale: "], "")
+    unique_id = common.generate_random(table)
+    inputs = ui.get_inputs(["Enter game title", "Enter price: ", "Enter month of sale: ", "Enter day of sale: ", "Enter year of sale: "], "")
     with open("sales/sales.csv", "a") as file:
         file.write("\n")
-        file.write(";".join(inputs))
+        file.write(f"{unique_id};{';'.join(inputs)}")
 
     return table
 

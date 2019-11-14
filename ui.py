@@ -94,7 +94,7 @@ def print_menu(title, list_options, exit_message):
     for index, element in enumerate(list_options):
         print(f"\t({index+1}) {element}")
     print(f"\t(0) {exit_message}")
-    
+
 
 def get_inputs(list_labels, title):
     """

@@ -85,11 +85,11 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    inputs = ui.get_inputs(["Please enter ID: ", "Month of the transaction: ", "Day of the transaction: ", "Year of the transaction:  ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
+    unique_id = common.generate_random(table)
+    inputs = ui.get_inputs(["Month of the transaction: ", "Day of the transaction: ", "Year of the transaction:  ", "Enter type (in = income, out = outflow): ", "Enter amount in USD: "], "")
     with open("accounting/items.csv", "a") as file:
         file.write("\n")
-        file.write(";".join(inputs))
+        file.write(f"{unique_id};{';'.join(inputs)}")
 
     return table
 

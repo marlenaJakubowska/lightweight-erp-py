@@ -15,6 +15,7 @@ import data_manager
 # common module
 import common
 
+
 def handle_menu():
     options = ["Show all", "Add"]
     menu_title = "Human resources manager"
@@ -35,7 +36,6 @@ def choose():
         show_table(list_of_people)
     elif option == "2":
         add(inputs)
-
 
 
 def start_module():
@@ -82,10 +82,11 @@ def add(table):
         list: Table with a new record
     """
 
-    inputs = ui.get_inputs(["Please enter ID: ", "Enter name: ", "Enter birth_year: "], "")
+    unique_id = common.generate_random(table)
+    inputs = ui.get_inputs(["Enter name: ", "Enter birth_year: "], "")
     with open("hr/persons.csv", "a") as file:
         file.write("\n")
-        file.write(";".join(inputs))
+        file.write(f"{unique_id};{';'.join(inputs)}")
 
     return table
 

@@ -57,7 +57,6 @@ def choose():
         # start_module()
     elif option == "2":
         add(inputs)
-        
 
 
 def show_table(table):
@@ -85,10 +84,11 @@ def add(table):
         list: Table with a new record
     """
 
-    inputs = ui.get_inputs(["Please enter ID: ", "Enter name: ", "Enter email: ", "Subscription (1/0 = yes/no): "], "")
+    unique_id = common.generate_random(table)
+    inputs = ui.get_inputs(["Enter name: ", "Enter email: ", "Subscription (1/0 = yes/no): "], "")
     with open("crm/customers.csv", "a") as file:
         file.write("\n")
-        file.write(";".join(inputs))
+        file.write(f"{unique_id};{';'.join(inputs)}")
 
     return table
 
