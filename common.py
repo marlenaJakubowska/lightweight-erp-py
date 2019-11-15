@@ -41,6 +41,10 @@ def update(file, table, id_):
     data_manager.write_table_to_file(file, table)
 
 
+def show_table(table, inputs):
+    ui.print_table(table, inputs)
+
+
 def create_id():
     letters = "qwertyuiopasdfghjklzxcvbnm"
     numbers = "1234567890"

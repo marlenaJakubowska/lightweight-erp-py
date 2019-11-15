@@ -50,101 +50,17 @@ def choose():
     if option == "0":
         return False
     elif option == "1":
-        show_table(table)
+        common.show_table(table, ["ID", "name", "email", "subscribed"])
     elif option == "2":
-        add(table)
+        common.add("crm/customers.csv", table, ["Enter name: ", "Enter email: ", "Subscription (1/0 = yes/no): "])
     elif option == "3":
         id_ = ui.get_inputs(["Please enter an ID: "], "")
-        remove(table, id_)
+        common.remove("crm/customers.csv", table, id_)
     elif option == "4":
         id_ = ui.get_inputs(["Please enter an ID of a record to update: "], "")
-        update(table, id_)
+        common.update("crm/customers.csv", table, id_)
 
     start_module()
-
-
-def show_table(table):
-    """
-    Display a table
-
-    Args:
-        table (list): list of lists to be displayed.
-
-    Returns:
-        None
-    """
-
-    ui.print_table(table, ["ID", "name", "email", "subscribed"])
-
-
-def add(table):
-    """
-    Asks user for input and adds it into the table.
-
-    Args:
-        table (list): table to add new record to
-
-    Returns:
-        list: Table with a new record
-    """
-    # unique_id = common.generate_random(table)
-    # inputs = ui.get_inputs(["Enter name: ", "Enter email: ", "Subscription (1/0 = yes/no): "], "")
-    # with open("crm/customers.csv", "a") as file:
-    #     file.write(f"{unique_id};{';'.join(inputs)}\n")
-    common.add("crm/customers.csv", table, ["Enter name: ", "Enter email: ", "Subscription (1/0 = yes/no): "])
-    return table
-
-
-def remove(table, id_):
-    """
-    Remove a record with a given id from the table.
-
-    Args:
-        table (list): table to remove a record from
-        id_ (str): id of a record to be removed
-
-    Returns:
-        list: Table without specified record.
-    """
-    common.remove("crm/customers.csv", table, id_)
-    # for row in table:
-    #     if id_[0] == row[0]:
-    #         inputs = ui.get_inputs([f"Do you want to delete this record ({' | '.join(row)})? [y/n] "], "")
-    #         if inputs[0].lower() == "y":
-    #             table.remove(row)
-    #         else:
-    #             continue
-    # data_manager.write_table_to_file("crm/customers.csv", table)
-    return table
-
-
-def update(table, id_):
-    """
-    Updates specified record in the table. Ask users for new data.
-
-    Args:
-        table (list): list in which record should be updated
-        id_ (str): id of a record to update
-
-    Returns:
-        list: table with updated record
-    """
-    # table_index = 0
-    # for row in table:
-    #     if id_[0] == row[0]:
-    #         for i in range(len(row)):
-    #             user_input = ''.join(ui.get_inputs([f"({row[i]}) Write new record or press 'Enter' to continue "], ""))
-    #             if user_input == "":
-    #                 continue
-    #             else:
-    #                 row[i] = user_input
-    #         table[table_index] = row
-    #     table_index += 1
-    # data_manager.write_table_to_file("crm/customers.csv", table)
-    common.update("crm/customers.csv", table, id_)
-    show_table(table)
-
-    return table
 
 
 # special functions:
