@@ -22,9 +22,8 @@ def print_table(table, title_list):
         None: This function doesn't return anything it only prints to console.
     """
 
-    the_longest_in_col = [['-']*len(table[0].split(";"))]
+    the_longest_in_col = [['-']*len(table[0])]
     for row in table:
-        row = row.split(";")
         # Loop to create a list of the longest elements
         for i in range(len(row)):
             if len(row[i]) > len(the_longest_in_col[0][i]):
@@ -32,9 +31,6 @@ def print_table(table, title_list):
 
     # Loop to eventually modify the list of longest elements, if title_list has longer elements
     for i in range(len(title_list)):
-        # print(i)
-        # print(len(title_list))
-        # print(title_list)
         if len(title_list[i]) > len(the_longest_in_col[0][i]):
             the_longest_in_col[0][i] = title_list[i]
         title_list[i] = title_list[i].center(len(the_longest_in_col[0][i]))
@@ -50,7 +46,6 @@ def print_table(table, title_list):
     for row in table:
         print(f"|{'-'*(table_width)}|")
         # Loop to center elements in row
-        row = row.split(";")
         for i in range(len(row)):
             row[i] = row[i].center(len(the_longest_in_col[0][i]))
         print(f"| {' | '.join(row)} |")

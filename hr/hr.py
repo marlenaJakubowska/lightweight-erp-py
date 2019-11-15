@@ -17,29 +17,31 @@ import common
 
 
 def handle_menu():
-    options = ["Show all", "Add", "Remove"]
+    options = ["Show all", "Add", "Remove", "Update"]
     menu_title = "Human resources manager"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
 
 
 def choose():
+    table = data_manager.get_table_from_file("hr/persons.csv")
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
     if option == "0":
         return False
     elif option == "1":
-        list_of_people = []
-        with open("hr/persons.csv") as file:
-            for line in file:
-                list_of_people.append(line.strip('\n'))
-        show_table(list_of_people)
+        show_table(table)
     elif option == "2":
-        table = data_manager.get_table_from_file("hr/persons.csv")
         add(table)
     elif option == "3":
         id_ = ui.get_inputs(["Please enter an ID: "], "")
-        remove(data_manager.get_table_from_file("hr/persons.csv"), id_)
+        remove(table, id_)
+    elif option == "4":
+        id_ = ui.get_inputs(["Please enter an ID of a record to update: "], "")
+        update(table, id_)
+
+    start_module()
+        
 
 
 def start_module():
@@ -51,7 +53,6 @@ def start_module():
     Returns:
         None
     """
-
     is_running = True
     while is_running:
         handle_menu()
@@ -71,7 +72,6 @@ def show_table(table):
     Returns:
         None
     """
-
     ui.print_table(table, ["id", "name", "birth_year"])  #, "price", "in stock"])
 
 
@@ -85,13 +85,7 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-
-    unique_id = common.generate_random(table)
-    inputs = ui.get_inputs(["Enter name: ", "Enter birth_year: "], "")
-    with open("hr/persons.csv", "a") as file:
-        file.write("\n")
-        file.write(f"{unique_id};{';'.join(inputs)}")
-
+    common.add("hr/persons.csv", table, ["Enter name: ", "Enter birth_year: "])
     return table
 
 
@@ -106,17 +100,16 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
+    common.remove("hr/persons.csv", table, id_)
+    # for row in table:
+    #     if id_[0] == row[0]:
+    #         inputs = ui.get_inputs([f"Do you want to delete this record ({' | '.join(row)})? [y/n] "], "")
+    #         if inputs[0].lower() == "y":
+    #             table.remove(row)
+    #         else:
+    #             continue
 
-    for row in table:
-        if id_[0] == row[0]:
-            inputs = ui.get_inputs([f"Do you want to delete this record ({row})? [y/n] "], "")
-            if inputs[0].lower() == "y":
-                table.remove(row)
-            else:
-                continue
-
-    data_manager.write_table_to_file("hr/persons.csv", table)
-    
+    # data_manager.write_table_to_file("hr/persons.csv", table)
     return table
 
 
@@ -131,9 +124,21 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
+    # table_index = 0
+    # for row in table:
+    #     if id_[0] == row[0]:
+    #         for i in range(len(row)):
+    #             user_input = ''.join(ui.get_inputs([f"({row[i]}) Write new record or press 'Enter' to continue "], ""))
+    #             if user_input == "":
+    #                 continue
+    #             else:
+    #                 row[i] = user_input
+    #         table[table_index] = row
+    #     table_index += 1
 
-    # your code
-
+    # data_manager.write_table_to_file("hr/persons.csv", table)
+    common.update("hr/persons.csv", table, id_)
+    show_table(table)
     return table
 
 

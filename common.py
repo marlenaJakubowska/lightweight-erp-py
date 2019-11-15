@@ -3,6 +3,42 @@ implement commonly used functions here
 """
 
 import random
+import data_manager
+import ui
+
+
+def add(file, table, inputs):
+    unique_id = generate_random(table)
+    inputs = ui.get_inputs(inputs, "")
+    with open(file, "a") as file:
+        file.write(f"{unique_id};{';'.join(inputs)}\n")
+    return table
+
+
+def remove(file, table, id_):
+    for row in table:
+        if id_[0] == row[0]:
+            inputs = ui.get_inputs([f"Do you want to delete this record ({' | '.join(row)})? [y/n] "], "")
+            if inputs[0].lower() == "y":
+                table.remove(row)
+            else:
+                continue
+    data_manager.write_table_to_file(file, table)
+
+
+def update(file, table, id_):
+    table_index = 0
+    for row in table:
+        if id_[0] == row[0]:
+            for i in range(len(row)):
+                user_input = ''.join(ui.get_inputs([f"({row[i]}) Write new record or press 'Enter' to continue "], ""))
+                if user_input == "":
+                    continue
+                else:
+                    row[i] = user_input
+                table[table_index] = row
+        table_index += 1
+    data_manager.write_table_to_file(file, table)
 
 
 def create_id():

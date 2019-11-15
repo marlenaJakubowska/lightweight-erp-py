@@ -19,41 +19,31 @@ import common
 
 
 def handle_menu():
-    options = ["Show all", "Add", "Remove", "Update"]
+    options = ["Show all", "Add", "Remove", "Update", "Show manufacturers"]
     menu_title = "Store module"
     exit_message = "Back to main menu"
     ui.print_menu(menu_title, options, exit_message)
 
 
 def choose():
+    table = data_manager.get_table_from_file("store/games.csv")
     inputs = ui.get_inputs(["Please enter a number: "], "")
     option = inputs[0]
     if option == "0":
         return False
     elif option == "1":
-        list_of_games = []
-        with open("store/games.csv") as file:
-            for line in file:
-                list_of_games.append(line.strip('\n'))
-        show_table(list_of_games)
+        show_table(table)
     elif option == "2":
-        list_of_games = []
-        with open("store/games.csv") as file:
-            for line in file:
-                list_of_games.append(line.strip('\n'))
-        add(list_of_games)
+        add(table)
     elif option == "3":
-        list_of_games = []
-        with open("store/games.csv") as file:
-            for line in file:
-                list_of_games.append(line.strip('\n'))
-        remove(list_of_games, input("Please enter an id of a record to be removed: "))
+        id_ = ui.get_inputs(["Please enter an ID: "], "")
+        remove(table, id_)
     elif option == "4":
-        list_of_games = []
-        with open("store/games.csv") as file:
-            for line in file:
-                list_of_games.append(line.strip('\n'))
-        update(list_of_games, input("Please enter an id of a record to update: "))
+        id_ = ui.get_inputs(["Please enter an ID of a record to update: "], "")
+        update(table, id_)
+    elif option == "5":
+        get_counts_by_manufacturers(data_manager.get_table_from_file("store/games.csv"))
+
     start_module()
 
 
@@ -98,8 +88,7 @@ def add(table):
     Returns:
         list: Table with a new record
     """
-    # your code
-
+    common.add("store/games.csv", table, ["Title of the game: ", "Manufacturer: ", "Price: ", "In stock: "])
     return table
 
 
@@ -114,9 +103,7 @@ def remove(table, id_):
     Returns:
         list: Table without specified record.
     """
-
-    # your code
-
+    common.remove("store/games.csv", table, id_)
     return table
 
 
@@ -131,22 +118,7 @@ def update(table, id_):
     Returns:
         list: table with updated record
     """
-    table_index = 0
-    for row in table:
-        row = row.split(";")
-        if id_ == row[0]:
-            with open("store/games.csv", "r+") as file:
-                for i in range(len(row)):
-                    user_input = input(f"Do you want to change this record ({row[i]})? [y/n] ")
-                    if user_input == "y":
-                        row[i] = input("New record: ")
-                    elif user_input == "n":
-                        continue
-                table[table_index] = ';'.join(row)
-                for element in table:
-                    file.write(f"{element}\n")
-        table_index += 1
-                    
+    common.update("store/games.csv", table, id_)
     show_table(table)
     return table
 
@@ -164,8 +136,9 @@ def get_counts_by_manufacturers(table):
     Returns:
          dict: A dictionary with this structure: { [manufacturer] : [count] }
     """
-
-    # your code
+    
+    for row in table:
+        row = row.split(";")
 
 
 def get_average_by_manufacturer(table, manufacturer):
